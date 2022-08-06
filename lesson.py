@@ -13,4 +13,7 @@ class Lesson():
         self.end_time = end_time
 
     def __repr__(self):
-        return self.start_time
+        return str(self.start_time) + '-' + str(self.end_time)
+
+lesson = Lesson(TimeOfDay(8, 30), TimeOfDay(9, 10))
+print(lesson)
