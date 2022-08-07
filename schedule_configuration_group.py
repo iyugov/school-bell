@@ -1,10 +1,10 @@
-'''Schedule specific configuration.'''
+'''Group of configuration settings.'''
 
 from schedule_daily_template import ScheduleDailyTemplate
 
 
-class ScheduleSpecificConfiguration():
-    '''Schedule specific configuration.'''
+class ScheduleConfigurationGroup():
+    '''Group of configuration settings.'''
     sound_file_names: dict[str, str]
     daily_template: ScheduleDailyTemplate
 

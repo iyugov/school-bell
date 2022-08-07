@@ -1,12 +1,16 @@
 '''Schedule configuration.'''
 
 from datetime import datetime
-from schedule_specific_configuration import ScheduleSpecificConfiguration
+from schedule_configuration_group import ScheduleConfigurationGroup
 
 
 class ScheduleConfiguration():
     '''Schedule configuration.'''
-    global_configuration: ScheduleSpecificConfiguration
-    weekdays_configuration: list[ScheduleSpecificConfiguration]
-    days_configuration: dict[datetime, ScheduleSpecificConfiguration]
-    
+    global_configuration: ScheduleConfigurationGroup
+    weekdays_configuration: list[ScheduleConfigurationGroup]
+    days_configuration: dict[datetime, ScheduleConfigurationGroup]
+
+    def __init__(self):
+        self.global_configuration = ScheduleConfigurationGroup()
+        self.weekdays_configuration = []
+        self.days_configuration = {}
