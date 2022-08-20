@@ -1,6 +1,9 @@
 '''Bell put in a queue and ready.'''
 
 from datetime import datetime
+from typing import TypeVar
+
+QueuedBellSelf = TypeVar("QueuedBellSelf", bound="QueuedBell")
 
 
 class QueuedBell():
@@ -13,3 +16,6 @@ class QueuedBell():
         self.moment = moment
         self.title = title
         self.sound = sound
+    
+    def __lt__(self, another: QueuedBellSelf) -> bool:
+        return self.moment < another.moment

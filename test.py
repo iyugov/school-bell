@@ -6,8 +6,9 @@ from schedule_configuration_group import ScheduleConfigurationGroup
 from lesson import Lesson
 from event import Event
 from time_of_day import TimeOfDay
-from datetime import datetime
+from datetime import datetime, timedelta
 from bell_dispatcher import BellDispatcher
+
 
 # Default schedule for all days
 global_daily_template = ScheduleDailyTemplate('Обычный день')
@@ -45,14 +46,19 @@ schedule_configuration.global_configuration = global_configuration_group
 # Weekends
 weekends_configuration_group = ScheduleConfigurationGroup()
 weekends_configuration_group.daily_template = empty_daily_template
+schedule_configuration.weekdays_configuration[5] = weekends_configuration_group
 schedule_configuration.weekdays_configuration[6] = weekends_configuration_group
-schedule_configuration.weekdays_configuration[7] = weekends_configuration_group
 # Special
 special_configuration_group = ScheduleConfigurationGroup()
 special_configuration_group.daily_template = short_daily_template
 schedule_configuration.days_configuration[datetime(2022, 9, 1)] = special_configuration_group
 
-test_dispatcher = BellDispatcher(datetime.now(), schedule_configuration)
-while not test_dispatcher.bell_queue.empty():
-    bell = test_dispatcher.bell_queue.get()
-    print(bell)
+test_dispatcher = BellDispatcher(schedule_configuration, datetime.now())
+test_dispatcher.extend_queue(days=3)
+print(test_dispatcher.start_datetime)
+print('---')
+for bell in test_dispatcher.bell_queue:
+    print(bell.moment, bell.title)
+print('---')
+print(test_dispatcher.end_datetime)
+test_dispatcher.main_loop()

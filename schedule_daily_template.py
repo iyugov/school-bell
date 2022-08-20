@@ -17,7 +17,8 @@ class ScheduleDailyTemplate():
         self.lessons = []
         self.events = []
 
-    def json_repr(self):
+    def json_repr(self) -> str:
+        '''Get JSON representation.'''
         template_repr = {'title': self.title}
         template_repr['lessons'] = []
         for lesson in self.lessons:

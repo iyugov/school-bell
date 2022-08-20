@@ -15,7 +15,8 @@ class ScheduleConfigurationGroup():
                                  'lesson_end': ''}
         self.daily_template = ScheduleDailyTemplate('')
 
-    def json_repr(self):
+    def json_repr(self) -> str:
+        '''Get JSON representation.'''
         return {
                 'sounds' : self.sound_file_names,
                 'daily_template': self.daily_template.json_repr()

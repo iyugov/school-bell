@@ -14,10 +14,11 @@ class Lesson():
         self.start_time = start_time
         self.end_time = end_time
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'{self.title}: {self.start_time}-{self.end_time}'
 
-    def json_repr(self):
+    def json_repr(self) -> str:
+        '''Get JSON representation.'''
         return {
                 'title': self.title,
                 'start_time': self.start_time.json_repr(),

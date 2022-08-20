@@ -12,10 +12,11 @@ class Event():
         self.title = title
         self.time = time
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'{self.title}: {self.time}'
 
-    def json_repr(self):
+    def json_repr(self) -> str:
+        '''Get JSON representation.'''
         return {
                 'title': self.title,
                 'time': self.time.json_repr()
