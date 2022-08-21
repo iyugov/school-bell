@@ -72,7 +72,7 @@ class BellDispatcher():
             while len(self.bell_queue) < MIN_QUEUE_LENGTH:
                 self.extend_queue(1)
             print('---')
-            for bell in self.bell_queue[:3]:
+            for bell in self.bell_queue[:7]:
                 print(bell.moment, bell.title)
             print('---')
             current_bell = self.bell_queue[0]
