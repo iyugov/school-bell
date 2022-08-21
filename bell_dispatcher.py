@@ -3,10 +3,18 @@
 from schedule_configuration import ScheduleConfiguration
 from datetime import datetime, timedelta
 from queued_bell import QueuedBell
+from time import sleep
+from pygame import mixer
 
 def start_of_day(date):
     return datetime(date.year, date.month, date.day)
 
+def start_of_second(date):
+    return datetime(date.year, date.month, date.day, date.hour, date.minute, date.second)
+
+
+MIN_QUEUE_LENGTH = 40
+SOUND_FILES_PREFIX = 'sounds/'
 
 class BellDispatcher():
     '''Dispatcher for bell queue.'''
@@ -20,6 +28,7 @@ class BellDispatcher():
         self.schedule_configuration = schedule_configuration
         self.start_datetime = start_datetime
         self.end_datetime = start_datetime
+        mixer.init()
 
     def extend_queue(self, days: int):
         '''Extend queue with given number of days.'''
@@ -55,5 +64,26 @@ class BellDispatcher():
         self.end_datetime = end_datetime_extension
 
     def main_loop(self):
-        '''Loop making bells.'''
-        pass
+        now = datetime.now()
+        while len(self.bell_queue) > 0 and self.bell_queue[0].moment < now:
+            self.start_datetime = self.bell_queue[0].moment + timedelta(microseconds=1)
+            del self.bell_queue[0]
+        while True:
+            while len(self.bell_queue) < MIN_QUEUE_LENGTH:
+                self.extend_queue(1)
+            print('---')
+            for bell in self.bell_queue[:3]:
+                print(bell.moment, bell.title)
+            print('---')
+            current_bell = self.bell_queue[0]
+            now = start_of_second(datetime.now())
+            seconds_left = max(0, int((current_bell.moment - now).total_seconds()))
+            hours_left, seconds_left = seconds_left // 3600, seconds_left % 3600
+            minutes_left, seconds_left = seconds_left // 60, seconds_left % 60
+            print(f'До следующего звонка - {hours_left:02}:{minutes_left:02}:{seconds_left:02}')
+            if now >= current_bell.moment:
+                mixer.music.load(SOUND_FILES_PREFIX + current_bell.sound)
+                del self.bell_queue[0]
+                print('Звонок: ' + current_bell.title)
+                mixer.music.play()
+            sleep(1)

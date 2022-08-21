@@ -34,31 +34,45 @@ short_daily_template.lessons.append(Lesson('6-й урок', TimeOfDay(11, 50), T
 short_daily_template.lessons.append(Lesson('7-й урок', TimeOfDay(12, 30), TimeOfDay(13, 00)))
 short_daily_template.events.append(Event('Концерт', TimeOfDay(13, 30)))
 
+# Schedule for today (debugging)
+debug_daily_template = ScheduleDailyTemplate('Отладочный день')
+debug_daily_template.lessons.append(Lesson('1-й урок', TimeOfDay(11, 34), TimeOfDay(11, 36)))
+debug_daily_template.lessons.append(Lesson('2-й урок', TimeOfDay(11, 37), TimeOfDay(11, 39)))
+debug_daily_template.lessons.append(Lesson('3-й урок', TimeOfDay(11, 40), TimeOfDay(11, 42)))
+debug_daily_template.lessons.append(Lesson('4-й урок', TimeOfDay(11, 43), TimeOfDay(11, 45)))
+debug_daily_template.lessons.append(Lesson('5-й урок', TimeOfDay(11, 46), TimeOfDay(11, 48)))
+debug_daily_template.events.append(Event('Концерт', TimeOfDay(11, 51)))
+
 # Schedule for weekends (empty)
 empty_daily_template = ScheduleDailyTemplate('Неучебный день')
 
 # Create configuration
 schedule_configuration = ScheduleConfiguration()
+sound_file_names = {
+                        'event': 'bell.mp3',
+                        'lesson_start': 'bell.mp3',
+                        'lesson_end': 'bell.mp3'}
 # Global
 global_configuration_group = ScheduleConfigurationGroup()
 global_configuration_group.daily_template = global_daily_template
+global_configuration_group.sound_file_names = sound_file_names
 schedule_configuration.global_configuration = global_configuration_group
 # Weekends
 weekends_configuration_group = ScheduleConfigurationGroup()
 weekends_configuration_group.daily_template = empty_daily_template
+weekends_configuration_group.sound_file_names = sound_file_names
 schedule_configuration.weekdays_configuration[5] = weekends_configuration_group
 schedule_configuration.weekdays_configuration[6] = weekends_configuration_group
 # Special
 special_configuration_group = ScheduleConfigurationGroup()
+special_configuration_group.sound_file_names = sound_file_names
 special_configuration_group.daily_template = short_daily_template
 schedule_configuration.days_configuration[datetime(2022, 9, 1)] = special_configuration_group
+# Debug
+debug_configuration_group = ScheduleConfigurationGroup()
+debug_configuration_group.sound_file_names = sound_file_names
+debug_configuration_group.daily_template = debug_daily_template
+schedule_configuration.days_configuration[datetime(2022, 8, 21)] = debug_configuration_group
 
 test_dispatcher = BellDispatcher(schedule_configuration, datetime.now())
-test_dispatcher.extend_queue(days=3)
-print(test_dispatcher.start_datetime)
-print('---')
-for bell in test_dispatcher.bell_queue:
-    print(bell.moment, bell.title)
-print('---')
-print(test_dispatcher.end_datetime)
 test_dispatcher.main_loop()
