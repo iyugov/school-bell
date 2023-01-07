@@ -36,12 +36,12 @@ short_daily_template.events.append(Event('Концерт', TimeOfDay(13, 30)))
 
 # Schedule for today (debugging)
 debug_daily_template = ScheduleDailyTemplate('Отладочный день')
-debug_daily_template.lessons.append(Lesson('1-й урок', TimeOfDay(11, 34), TimeOfDay(11, 36)))
-debug_daily_template.lessons.append(Lesson('2-й урок', TimeOfDay(11, 37), TimeOfDay(11, 39)))
-debug_daily_template.lessons.append(Lesson('3-й урок', TimeOfDay(11, 40), TimeOfDay(11, 42)))
-debug_daily_template.lessons.append(Lesson('4-й урок', TimeOfDay(11, 43), TimeOfDay(11, 45)))
-debug_daily_template.lessons.append(Lesson('5-й урок', TimeOfDay(11, 46), TimeOfDay(11, 48)))
-debug_daily_template.events.append(Event('Концерт', TimeOfDay(11, 51)))
+debug_daily_template.lessons.append(Lesson('1-й урок', TimeOfDay(0, 32), TimeOfDay(0, 33)))
+debug_daily_template.lessons.append(Lesson('2-й урок', TimeOfDay(0, 34), TimeOfDay(0, 35)))
+debug_daily_template.lessons.append(Lesson('3-й урок', TimeOfDay(0, 36), TimeOfDay(0, 37)))
+debug_daily_template.lessons.append(Lesson('4-й урок', TimeOfDay(0, 38), TimeOfDay(0, 39)))
+debug_daily_template.lessons.append(Lesson('5-й урок', TimeOfDay(0, 40), TimeOfDay(0, 41)))
+debug_daily_template.events.append(Event('Концерт', TimeOfDay(0, 42)))
 
 # Schedule for weekends (empty)
 empty_daily_template = ScheduleDailyTemplate('Неучебный день')
@@ -72,7 +72,7 @@ schedule_configuration.days_configuration[datetime(2022, 9, 1)] = special_config
 debug_configuration_group = ScheduleConfigurationGroup()
 debug_configuration_group.sound_file_names = sound_file_names
 debug_configuration_group.daily_template = debug_daily_template
-schedule_configuration.days_configuration[datetime(2022, 8, 21)] = debug_configuration_group
+schedule_configuration.days_configuration[datetime(2023, 1, 8)] = debug_configuration_group
 
 test_dispatcher = BellDispatcher(schedule_configuration, datetime.now())
 test_dispatcher.main_loop()
