@@ -9,6 +9,8 @@ from time_of_day import TimeOfDay
 from datetime import datetime, timedelta
 from bell_dispatcher import BellDispatcher
 
+import tkinter as tk
+
 
 # Default schedule for all days
 global_daily_template = ScheduleDailyTemplate('Обычный день')
@@ -75,4 +77,9 @@ debug_configuration_group.daily_template = debug_daily_template
 schedule_configuration.days_configuration[datetime(2023, 1, 8)] = debug_configuration_group
 
 test_dispatcher = BellDispatcher(schedule_configuration, datetime.now())
-test_dispatcher.main_loop()
+window = tk.Tk()
+# window.geometry('400x300')
+upcoming = tk.Label(name='upcoming', font=(None,25), justify='left')
+upcoming.pack()
+window.after(1000, test_dispatcher.main_loop, window)
+window.mainloop()
